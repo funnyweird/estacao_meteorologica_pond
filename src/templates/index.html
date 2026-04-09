@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Tempo Real</h2>
+    <p>A página é atualizada automaticamente a cada 5 segundos para buscar novos dados do Arduino.</p>
+    
+    {% if leituras %}
+        <p>Última leitura recebida em: <strong>{{ leituras[0].timestamp }}</strong></p>
+        <div>
+            <h3 class="destaque">🌡️ {{ leituras[0].temperatura }} °C</h3>
+            <h3 class="destaque" style="color: #3498db;">💧 {{ leituras[0].umidade }} %</h3>
+        </div>
+    {% else %}
+        <p>Aguardando dados dos sensores...</p>
+    {% endif %}
+</div>
+
+<h3>Últimas 10 Leituras Recebidas</h3>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Temperatura (°C)</th>
+        <th>Umidade (%)</th>
+        <th>Data e Hora</th>
+    </tr>
+    <!-- O Jinja2 faz um loop pelos dados que o app.py mandou do Banco de Dados -->
+    {% for leitura in leituras %}
+    <tr>
+        <td>{{ leitura.id }}</td>
+        <td>{{ leitura.temperatura }}</td>
+        <td>{{ leitura.umidade }}</td>
+        <td>{{ leitura.timestamp }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Script simples em JavaScript para atualizar a página a cada 5 segundos -->
+<script>
+    setTimeout(function(){
+        window.location.reload(1);
+    }, 5000);
+</script>
+{% endblock %}

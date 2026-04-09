@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Editar Leitura #{{ leitura.id }}</h2>
+    <p>Modifique a temperatura ou umidade abaixo e salve.</p>
+    
+    <form id="form-editar">
+        <div style="margin-bottom: 15px;">
+            <label><strong>Temperatura (°C):</strong><br>
+                <!-- O "value" já traz o dado atual preenchido -->
+                <input type="number" step="0.1" id="temperatura" value="{{ leitura.temperatura }}" required style="padding: 8px; width: 200px;">
+            </label>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label><strong>Umidade (%):</strong><br>
+                <input type="number" step="0.1" id="umidade" value="{{ leitura.umidade }}" required style="padding: 8px; width: 200px;">
+            </label>
+        </div>
+        
+        <button type="submit" style="background-color: #3498db; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            💾 Salvar Alterações
+        </button>
+        <a href="/historico" style="margin-left: 15px; color: #7f8c8d; text-decoration: none;">Cancelar</a>
+    </form>
+</div>
+
+<!-- Lógica JavaScript para o PUT -->
+<script>
+    document.getElementById('form-editar').addEventListener('submit', function(e) {
+        e.preventDefault(); // Impede o envio tradicional do formulário
+        
+        // Pega os novos valores digitados
+        const dadosAtualizados = {
+            temperatura: parseFloat(document.getElementById('temperatura').value),
+            umidade: parseFloat(document.getElementById('umidade').value)
+        };
+        
+        // Envia o PUT para a nossa API no Flask
+        fetch('/leituras/{{ leitura.id }}', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dadosAtualizados)
+        })
+        .then(response => {
+            if(response.ok) {
+                alert("Leitura atualizada com sucesso!");
+                window.location.href = '/historico'; // Redireciona de volta
+            } else {
+                alert("Erro ao atualizar a leitura.");
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    });
+</script>
+{% endblock %}

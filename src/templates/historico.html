@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <h2>Histórico de Leituras</h2>
+    <p>Abaixo estão as últimas leituras registradas no banco de dados. Você pode excluir registros incorretos clicando no botão de ação.</p>
+</div>
+
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Temperatura (°C)</th>
+        <th>Umidade (%)</th>
+        <th>Data e Hora</th>
+        <th>Ações</th>
+    </tr>
+    <!-- O Jinja2 faz o loop pelas leituras enviadas pelo app.py -->
+    {% for leitura in leituras %}
+    <tr id="linha-{{ leitura.id }}">
+        <td>{{ leitura.id }}</td>
+        <td>{{ leitura.temperatura }}</td>
+        <td>{{ leitura.umidade }}</td>
+        <td>{{ leitura.timestamp }}</td>
+        <td>
+            <!-- Botão de Editar -->
+            <a href="/editar/{{ leitura.id }}" 
+               style="background-color: #f39c12; color: white; text-decoration: none; padding: 6px 12px; border-radius: 4px; margin-right: 5px;">
+                ✏️ Editar
+            </a>
+            <!-- Botão de Excluir -->
+            <button onclick="deletarLeitura({{ leitura.id }})" 
+                    style="background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+                🗑️ Excluir
+            </button>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Lógica JavaScript para o botão de exclusão -->
+<script>
+    function deletarLeitura(id) {
+        // Pede uma confirmação ao usuário para evitar cliques acidentais
+        if(confirm("Tem certeza que deseja excluir a leitura #" + id + "?")) {
+            
+            // Faz a requisição DELETE para a nossa API Flask
+            fetch('/leituras/' + id, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if(response.ok) {
+                    // Se o Flask confirmar a exclusão, removemos a linha da tabela na mesma hora!
+                    document.getElementById('linha-' + id).remove();
+                } else {
+                    alert("Erro ao excluir a leitura do banco de dados.");
+                }
+            })
+            .catch(error => console.error('Erro:', error));
+        }
+    }
+</script>
+{% endblock %}

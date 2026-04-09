@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estação Meteorológica IoT</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; color: #333; }
+        header { background-color: #2c3e50; color: #ffffff; padding: 1.5rem; text-align: center; }
+        nav { background-color: #34495e; padding: 1rem; text-align: center; }
+        nav a { color: #ffffff; text-decoration: none; margin: 0 15px; font-weight: bold; font-size: 1.1rem; }
+        nav a:hover { color: #18bc9c; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .card { background: #ffffff; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; margin-bottom: 2rem; }
+        .destaque { font-size: 2rem; color: #e74c3c; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: center; }
+        th { background-color: #2c3e50; color: white; }
+        tr:hover { background-color: #f1f1f1; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>☁️ Estação Meteorológica IoT</h1>
+    </header>
+    
+    <nav>
+        <a href="/">Painel Principal</a>
+        <a href="/historico">Histórico</a>
+    </nav>
+
+    <div class="container">
+        <!-- É aqui que as outras páginas vão injetar o conteúdo delas -->
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
