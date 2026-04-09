@@ -89,4 +89,17 @@ python serial_reader.py
 | `DELETE` | `/leituras/<id>` | Remove leitura. |
 | `PUT` | `/leituras/<id>` | Atualiza temperatura/umidade. |
 
+---
+
+## Publicação no GitHub (branch `main`)
+
+```bash
+git add .
+git commit -m "Entrega estação meteorológica IoT"
+git branch -M main
+git push -u origin main
+```
+
+Use a branch **`main`** (padrão no GitHub). Se o repositório local ainda estiver em `master`, `git branch -M main` renomeia para `main` antes do push.
+
 
